@@ -1,0 +1,6 @@
+{
+	"vehicleTypes": {
+		"car": "Car",
+		"truck": "Truck"
+	}
+}

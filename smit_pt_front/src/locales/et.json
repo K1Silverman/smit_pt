@@ -1,0 +1,6 @@
+{
+	"vehicleTypes": {
+		"car": "Sõiduauto",
+		"truck": "Veoauto"
+	}
+}

@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base{
+	body {
+		@apply text-base font-semibold text-red-950
+	}
+
+	h2 {
+		@apply text-3xl font-extrabold text-red-800;
+	}
+}
