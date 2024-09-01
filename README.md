@@ -1,4 +1,3 @@
-# Running
 Using:
 * Java 17
 * Spring boot 3.2.2
@@ -11,19 +10,19 @@ Using:
 
 dir ./smit_pt_front/
 
-``npm install``
+``npm install`` <br>
 ``npm run dev``
 
 ## Backend
 
 dir ./smit_pt_back/
 
-Windows
-``gradlew bootRun``
-Linux
-``./gradlew bootRun``
+Windows<br>
+``gradlew bootRun``<br>
+Linux<br>
+``./gradlew bootRun``<br>
 
 ## Tire change workshops
-in linux64
-./london-server
-./manchester-server
+dir ./linux64/<br>
+``./london-server``<br>
+``./manchester-server``<br>
