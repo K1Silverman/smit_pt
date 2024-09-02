@@ -15,5 +15,4 @@ public class FilterSettingsDto {
 	private List<String> vehicleTypes;
 	@Builder.Default
 	private List<EndpointSettingsDto> endpointSettings = new ArrayList<>();
-
 }
