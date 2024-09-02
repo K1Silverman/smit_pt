@@ -77,7 +77,6 @@ public class AvailableTimesService {
 					List<Object> filteredBody = objectResponse.getBody().stream().filter(item -> {
 						if (item instanceof Map map) {
 							if (map.containsKey("available") && ((Boolean) map.get("available"))) {
-								// System.out.println("item: " + item);
 								return isInDateRange((Map) item, filterSettings);
 							} else
 								return !map.containsKey("available");
@@ -165,11 +164,7 @@ public class AvailableTimesService {
 		LocalDate time = Instant.parse(item.get("time").toString()).atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate from = filterSettings.getFrom();
 		LocalDate until = filterSettings.getUntil();
-
-		if (time.isEqual(from) || (until != null && time.isEqual(until)) || (time.isAfter(from) && time.isBefore(until))) {
-			return true;
-		}
-		return false;
+		return time.isEqual(from) || (until != null && (time.isEqual(until) || time.isBefore(until)) || time.isAfter(from));
 	}
 
 }
