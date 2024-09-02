@@ -58,7 +58,7 @@
   </div>
 </template>
 <script>
-import { format, isAfter, isBefore, isPast } from 'date-fns'
+import { format, isAfter, isBefore, isPast, isToday } from 'date-fns'
 
 export default {
   name: 'Filters',
@@ -126,7 +126,10 @@ export default {
       }, 500)
     },
     validateDates() {
-      if (isAfter(this.filterForm.from, this.filterForm.until) || isPast(this.filterForm.from)) {
+      if (
+        isAfter(this.filterForm.from, this.filterForm.until) ||
+        (!isToday(this.filterForm.from) && isPast(this.filterForm.from))
+      ) {
         return false
       }
 

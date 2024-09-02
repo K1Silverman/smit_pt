@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
+import jakarta.validation.Valid;
 
 @RestController
+@Validated
 public class WorkshopController {
 
 	@Autowired
@@ -42,7 +45,7 @@ public class WorkshopController {
 
 	@PostMapping("/available-time-filter")
 	@Operation(summary = "Get available times with filter settings", description = "Fetches available times for workshops that fit the filter conditions")
-	public List<WorkshopInfoDto> getAllAvailableTimes(@RequestBody FilterSettings filterSettings) {
+	public List<WorkshopInfoDto> getAllAvailableTimes(@Valid @RequestBody FilterSettings filterSettings) {
 		List<WorkshopInfoDto> response = availableTimesService.getAvailableTimes(filterSettings);
 		return response;
 	}
