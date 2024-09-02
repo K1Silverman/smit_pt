@@ -136,7 +136,7 @@ export default {
       if (this.filterForm.until !== '') {
         if (
           isBefore(this.filterForm.until, this.filterForm.from) ||
-          isPast(this.filterForm.until)
+          (!isToday(this.filterForm.from) && isPast(this.filterForm.from))
         ) {
           return false
         }

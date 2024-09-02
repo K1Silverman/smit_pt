@@ -1,6 +1,9 @@
 package com.example.smit_pt.service;
 
 import java.lang.reflect.Field;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -70,22 +73,23 @@ public class AvailableTimesService {
 						HttpMethod.GET, null, new ParameterizedTypeReference<List<?>>() {
 						});
 				if (objectResponse.hasBody() && objectResponse.getBody() != null) {
-					int bodySize = objectResponse.getBody().size();
-					int pageNumber = filterSettings.getPageNumber();
-					int lastPage = (int) Math.ceil((double) bodySize / pageSize);
-					workshopInfoDto.setLastPage(lastPage);
-					workshopInfoDto.setCurrentPage(pageNumber);
 
 					List<Object> filteredBody = objectResponse.getBody().stream().filter(item -> {
 						if (item instanceof Map map) {
 							if (map.containsKey("available") && ((Boolean) map.get("available"))) {
-								return true;
+								// System.out.println("item: " + item);
+								return isInDateRange((Map) item, filterSettings);
 							} else
 								return !map.containsKey("available");
 						} else {
 							throw new RuntimeException("Unexpected response format");
 						}
 					}).collect(Collectors.toList());
+					int bodySize = filteredBody.size();
+					int pageNumber = filterSettings.getPageNumber();
+					int lastPage = (int) Math.ceil((double) bodySize / pageSize);
+					workshopInfoDto.setLastPage(lastPage);
+					workshopInfoDto.setCurrentPage(pageNumber);
 					workshopInfoDto.setAvailableTimes(filteredBody);
 				} else {
 					workshopInfoDto.setAvailableTimes(Collections.emptyList());
@@ -155,6 +159,17 @@ public class AvailableTimesService {
 			}
 		}
 		return uriBuilder;
+	}
+
+	public boolean isInDateRange(Map item, FilterSettings filterSettings) {
+		LocalDate time = Instant.parse(item.get("time").toString()).atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate from = filterSettings.getFrom();
+		LocalDate until = filterSettings.getUntil();
+
+		if (time.isEqual(from) || (until != null && time.isEqual(until)) || (time.isAfter(from) && time.isBefore(until))) {
+			return true;
+		}
+		return false;
 	}
 
 }
